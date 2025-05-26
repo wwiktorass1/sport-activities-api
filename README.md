@@ -33,63 +33,55 @@ http://localhost:8000
 
 Returns a list of all sport activities.
 
+---
+
+## 🔎 Available Filters
+
 You can filter the activities using the following **query parameters**:
 
-| Parameter     | Type    | Description                                         |
-|---------------|---------|-----------------------------------------------------|
-| `type`        | string  | Activity type (e.g. `joga`)                         |
-| `location`    | string  | City (e.g. `Vilnius`)                               |
-| `title`       | string  | Part of title (e.g. `joga` matches `Joga parke`)   |
-| `price_from`  | float   | Minimum price (e.g. `10`)                           |
-| `price_to`    | float   | Maximum price (e.g. `30`)                           |
-| `is_active`   | bool    | 1 or 0 – to filter active/inactive activities       |
+| Parameter     | Type    | Description                                                   |
+|---------------|---------|---------------------------------------------------------------|
+| `type`        | string  | Activity type (e.g. `joga`, `tenisas`)                        |
+| `location`    | string  | City (e.g. `Vilnius`, `Kaunas`, `Šiauliai`, etc.)             |
+| `title`       | string  | Search in activity title (e.g. `title=tenisas`)               |
+| `price_from`  | float   | Minimum price                                                 |
+| `price_to`    | float   | Maximum price                                                 |
+| `is_active`   | bool    | Filter active (`1`) or inactive (`0`) activities              |
 
 ---
 
-## 🔍 Example Requests
+## ✅ Example Requests
 
-### ✅ All activities
+### All activities
 
 ```
 http://localhost:8000
 ```
 
-### ✅ Filtered by type
+### Filter by title (contains "tenisas")
 
 ```
-http://localhost:8000?type=joga
+http://localhost:8000?title=tenisas
 ```
 
-### ✅ Filtered by location and active
-
-```
-http://localhost:8000?location=Vilnius&is_active=1
-```
-
-### ✅ Title contains 'joga'
-
-```
-http://localhost:8000?title=joga
-```
-
-### ✅ Price range
+### Filter by price range
 
 ```
 http://localhost:8000?price_from=10&price_to=20
 ```
 
-### ❌ Invalid is_active
+### Invalid price range (from > to)
 
 ```
-http://localhost:8000?is_active=test
+http://localhost:8000?price_from=50&price_to=30
 ```
 
-Returns:
+Response:
 
 ```json
 {
   "status": "error",
-  "message": "Netinkama reikšmė parametre is_active (leidžiamos: 0, 1)",
+  "message": "Parametras price_from negali būti didesnis už price_to",
   "data": []
 }
 ```
@@ -106,13 +98,30 @@ curl "http://localhost:8000?type=joga&location=Vilnius"
 curl "http://localhost:8000?price_from=10&price_to=25"
 ```
 
+```bash
+curl "http://localhost:8000?title=treniruotė"
+```
+
+---
+
+## 🗺️ Sample Data
+
+Activities include:
+- Joga parke (Vilnius)
+- Pilates namuose (Kaunas)
+- Futbolo treniruotė (Klaipėda)
+- Krepšinio stovykla (Panevėžys)
+- Teniso pamoka (Šiauliai)
+
+Each activity includes `latitude` and `longitude` for map display.
+
 ---
 
 ## 🛠️ Tech Stack
 
 - PHP 8.3 (Laravel-like structure)
 - Docker + Docker Compose
-- JSON responses with filtering and validation
+- JSON API with filtering and validation
 
 ---
 
