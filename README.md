@@ -117,6 +117,27 @@ Each activity includes `latitude` and `longitude` for map display.
 
 ---
 
+
+## 🧪 Testing
+
+This project includes basic automated API tests.
+
+### Run tests inside Docker container:
+
+```bash
+docker exec -it $(docker ps -qf "name=laravel") php tests/test.php
+```
+
+All tests should output:
+
+```
+🧪 Running Sport Activities API tests...
+✅ All activities test passed
+✅ is_active=1 filter test passed
+✅ Invalid price range test passed
+✅ Title filter test passed
+🎉 All tests completed successfully.
+```
 ## 🛠️ Tech Stack
 
 - PHP 8.3 (Laravel-like structure)
