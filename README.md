@@ -29,19 +29,20 @@ http://localhost:8000
 
 ## 📚 API Endpoint
 
-### `GET /api/sport-activities`
+### `GET /`
 
 Returns a list of all sport activities.
 
 You can filter the activities using the following **query parameters**:
 
-| Parameter     | Type    | Description                         |
-|---------------|---------|-------------------------------------|
-| `type`        | string  | Activity type (e.g. `joga`)         |
-| `location`    | string  | City (e.g. `Vilnius`)               |
-| `price_from`  | float   | Minimum price                       |
-| `price_to`    | float   | Maximum price                       |
-| `is_active`   | bool    | Only active (`1`) or inactive (`0`) |
+| Parameter     | Type    | Description                                         |
+|---------------|---------|-----------------------------------------------------|
+| `type`        | string  | Activity type (e.g. `joga`)                         |
+| `location`    | string  | City (e.g. `Vilnius`)                               |
+| `title`       | string  | Part of title (e.g. `joga` matches `Joga parke`)   |
+| `price_from`  | float   | Minimum price (e.g. `10`)                           |
+| `price_to`    | float   | Maximum price (e.g. `30`)                           |
+| `is_active`   | bool    | 1 or 0 – to filter active/inactive activities       |
 
 ---
 
@@ -65,10 +66,32 @@ http://localhost:8000?type=joga
 http://localhost:8000?location=Vilnius&is_active=1
 ```
 
+### ✅ Title contains 'joga'
+
+```
+http://localhost:8000?title=joga
+```
+
 ### ✅ Price range
 
 ```
 http://localhost:8000?price_from=10&price_to=20
+```
+
+### ❌ Invalid is_active
+
+```
+http://localhost:8000?is_active=test
+```
+
+Returns:
+
+```json
+{
+  "status": "error",
+  "message": "Netinkama reikšmė parametre is_active (leidžiamos: 0, 1)",
+  "data": []
+}
 ```
 
 ---
@@ -89,7 +112,7 @@ curl "http://localhost:8000?price_from=10&price_to=25"
 
 - PHP 8.3 (Laravel-like structure)
 - Docker + Docker Compose
-- JSON responses with filtering
+- JSON responses with filtering and validation
 
 ---
 
