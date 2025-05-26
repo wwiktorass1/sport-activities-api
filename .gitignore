@@ -1,0 +1,4 @@
+/vendor/
+/.env
+/node_modules/
+/docker-compose.override.yml
