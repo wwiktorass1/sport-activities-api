@@ -34,6 +34,42 @@ $data = [
         'latitude' => 54.9,
         'longitude' => 23.9,
         'is_active' => false,
+    ],
+    [
+        'id' => 3,
+        'title' => 'Futbolo treniruotė',
+        'type' => 'futbolas',
+        'group_type' => 'Grupė',
+        'location' => 'Klaipėda',
+        'start_date' => '2025-06-01',
+        'price' => 10.0,
+        'latitude' => 55.7033,
+        'longitude' => 21.1443,
+        'is_active' => true,
+    ],
+    [
+        'id' => 4,
+        'title' => 'Krepšinio stovykla',
+        'type' => 'krepšinis',
+        'group_type' => 'Grupė',
+        'location' => 'Panevėžys',
+        'start_date' => '2025-06-10',
+        'price' => 40.0,
+        'latitude' => 55.7333,
+        'longitude' => 24.35,
+        'is_active' => true,
+    ],
+    [
+        'id' => 5,
+        'title' => 'Teniso pamoka',
+        'type' => 'tenisas',
+        'group_type' => 'Individualiai',
+        'location' => 'Šiauliai',
+        'start_date' => '2025-06-05',
+        'price' => 30.0,
+        'latitude' => 55.9333,
+        'longitude' => 23.3167,
+        'is_active' => false,
     ]
 ];
 
@@ -46,6 +82,7 @@ $filters = [
     'is_active' => $_GET['is_active'] ?? null
 ];
 
+// Validacija
 if (isset($filters['is_active']) && !in_array($filters['is_active'], ['0', '1'], true)) {
     errorResponse("Netinkama reikšmė parametre is_active (leidžiamos: 0, 1)");
 }
@@ -54,6 +91,14 @@ if (isset($filters['price_from']) && !is_numeric($filters['price_from'])) {
 }
 if (isset($filters['price_to']) && !is_numeric($filters['price_to'])) {
     errorResponse("Parametras price_to turi būti skaičius");
+}
+if (isset($filters['price_from'], $filters['price_to']) &&
+    $filters['price_from'] !== null && $filters['price_to'] !== null &&
+    $filters['price_from'] > $filters['price_to']) {
+    errorResponse("Parametras price_from negali būti didesnis už price_to");
+}
+if (isset($filters['title']) && trim($filters['title']) === '') {
+    errorResponse("Parametras title negali būti tuščias");
 }
 
 $filtered = array_filter($data, function ($activity) use ($filters) {

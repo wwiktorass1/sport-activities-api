@@ -1,0 +1,87 @@
+openapi: 3.0.0
+info:
+  title: Sport Activities API
+  version: 1.0.0
+  description: API for querying sport activities with filtering capabilities
+servers:
+  - url: http://localhost:8000
+paths:
+  /:
+    get:
+      summary: Get all sport activities
+      description: Returns a list of sport activities with optional filters
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Filter by activity type
+        - in: query
+          name: title
+          schema:
+            type: string
+          description: Filter by title (partial match)
+        - in: query
+          name: location
+          schema:
+            type: string
+          description: Filter by location
+        - in: query
+          name: price_from
+          schema:
+            type: number
+          description: Minimum price
+        - in: query
+          name: price_to
+          schema:
+            type: number
+          description: Maximum price
+        - in: query
+          name: is_active
+          schema:
+            type: boolean
+          description: Filter by activity status (1 or 0)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    nullable: true
+                    example: null
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: Joga parke
+                        type:
+                          type: string
+                          example: joga
+                        location:
+                          type: string
+                          example: Vilnius
+                        price:
+                          type: number
+                          example: 15.0
+                        latitude:
+                          type: number
+                          example: 54.6872
+                        longitude:
+                          type: number
+                          example: 25.2797
+                        is_active:
+                          type: boolean
+                          example: true
